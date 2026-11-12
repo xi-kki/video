@@ -63,6 +63,27 @@
   .reel p { color:var(--mute); margin-top:8px; }
   @media (max-width:600px){ .reel { flex-direction:column; align-items:stretch; } .reel video { width:100%; } }
   @media (max-width:600px){ nav { flex-wrap:wrap; gap:10px; } nav .links { gap:14px; font-size:13px; flex-wrap:wrap; } .wrap { padding:0 16px; } }
+  .feed-wrap { position:relative; margin:40px auto 72px; width:min(100%, 430px); }
+  .feed { height:min(88vh, 860px); overflow-y:auto; scroll-snap-type:y mandatory; border-radius:22px; background:#000; scrollbar-width:none; overscroll-behavior:contain; }
+  .feed::-webkit-scrollbar { display:none; }
+  .slide { position:relative; height:100%; scroll-snap-align:start; scroll-snap-stop:always; }
+  .slide video { width:100%; height:100%; object-fit:cover; display:block; background:#000; }
+  .slide::after { content:""; position:absolute; left:0; right:0; bottom:0; height:90px; background:linear-gradient(transparent, rgba(0,0,0,.85)); pointer-events:none; }
+  .info { position:absolute; z-index:1; left:14px; right:80px; bottom:10px; text-shadow:0 2px 10px rgba(0,0,0,.7); pointer-events:none; }
+  .info h2 { font-size:14px; font-weight:800; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .info p { font-size:11px; color:#ccc; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .info .tag { display:none; }
+  .snd { position:absolute; top:14px; right:14px; width:42px; height:42px; border-radius:50%; border:0; background:rgba(0,0,0,.5); color:#fff; font-size:18px; cursor:pointer; }
+  .side { position:absolute; z-index:1; right:12px; bottom:12px; display:grid; justify-items:center; gap:6px; text-decoration:none; color:#fff; font-size:11px; font-weight:700; text-shadow:0 2px 8px rgba(0,0,0,.7); }
+  .side b { width:40px; height:40px; border-radius:50%; background:var(--accent); color:#000; display:grid; place-items:center; font-size:28px; box-shadow:0 6px 18px rgba(0,0,0,.4); }
+  .bar { position:absolute; left:0; right:0; bottom:0; height:3px; background:rgba(255,255,255,.2); } .bar i { display:block; height:100%; width:0; background:var(--accent); }
+  .swipe-hint { position:absolute; left:50%; top:42%; transform:translateX(-50%); display:grid; justify-items:center; gap:2px; color:#fff; font-weight:700; font-size:14px;
+    background:rgba(0,0,0,.55); padding:10px 18px 12px; border-radius:99px; pointer-events:none; transition:opacity .4s; animation:nudge 1.6s ease-in-out infinite; }
+  .swipe-hint .chev { font-size:22px; line-height:1; }
+  .swipe-hint.gone { opacity:0; }
+  @keyframes nudge { 0%,100% { transform:translate(-50%,0); } 50% { transform:translate(-50%,-10px); } }
+  @media (max-width:600px){ .feed-wrap { width:auto; margin:24px -16px 48px; } .feed { height:100svh; border-radius:0; } }
+  @media (prefers-reduced-motion:reduce){ .swipe-hint { animation:none; } }
   footer { color:var(--mute); font-size:12px; padding:0 0 40px; }
 </style>
 </head>
@@ -88,7 +109,10 @@
     </div>
     </div>
   </header>
-  <main class="grid" id="grid"></main>
+  <main class="feed-wrap" id="grid">
+    <div class="feed" id="feed" aria-label="Clips, swipe up for more"></div>
+    <div class="swipe-hint" id="hint" aria-hidden="true"><span class="chev">⌃</span>Swipe up for more</div>
+  </main>
   <section class="cta">
     <h3>Got a podcast?<br>Let's clip it.</h3>
     <a class="btn" href="https://wa.me/2349066339975?text=Hi%20Xi-kki%2C%20I%20want%20clips%20from%20my%20podcast">Message on WhatsApp</a>
@@ -129,8 +153,9 @@ const reveal = new IntersectionObserver(es => es.forEach(e => {
     { opacity: 1, transform: "none", clipPath: "inset(0 0 0 0 round 16px)" }], { duration: 700, delay: (e.target.dataset.i % 3) * 110, easing: EASE, fill: "backwards" });
 }), { threshold: .15 });
 const clips = [
-  { f:"ClipR", t:"\"It was a Bolt\"", s:"ShxtsnGigs Podcast", tag:"Style · Pop-up hook" },
+  { f:"ClipC", t:"How to hook anyone in 60 seconds", s:"TED · Jenny Hoyos", tag:"Style · Podcast classic" },
   { f:"ClipH", t:"Millionaire to broke in 30 seconds", s:"TEDxIlupeju · Olubori Paul", tag:"Style · Finance terminal" },
+  { f:"ClipR", t:"\"It was a Bolt\"", s:"ShxtsnGigs Podcast", tag:"Style · Pop-up hook" },
   { f:"ClipO", t:"What AI can't copy", s:"Jay Yang · YouTube", tag:"Style · Bold list" },
   { f:"ClipL", t:"Is veganism a scam?", s:"Healthier · Tim Armoo", tag:"Style · Podcast frame" },
   { f:"ClipJ", t:"Nobody changes because you tell them to", s:"TEDxPatras · Peter Sage", tag:"Style · Cinematic type" },
@@ -140,7 +165,6 @@ const clips = [
   { f:"ClipM", t:"Who edits my videos?", s:"Unchained · Lara Acosta", tag:"Style · Studio cards" },
   { f:"ClipF", t:"Popped over his vocabulary", s:"The Hunt Games Show · via Nons_Miraj", tag:"Style · Reality TV pop" },
   { f:"ClipN", t:"Mic a street interview like a pro", s:"RØDE · YouTube", tag:"Style · Neon tips" },
-  { f:"ClipC", t:"How to hook anyone in 60 seconds", s:"TED · Jenny Hoyos", tag:"Style · Podcast classic" },
   { f:"ClipE", t:"You're chasing the wrong thing", s:"Maggie McCormack · YouTube", tag:"Style · Editorial" },
   { f:"ClipK", t:"Why God feels so real", s:"Darante' LaMar · YouTube", tag:"Style · Talking-head explainer" },
   { f:"ClipG", t:"Smart, wise… and still broke?", s:"Golearn · Rosemond Phil Othihiwa", tag:"Style · Swiss bold" },
@@ -148,22 +172,39 @@ const clips = [
   { f:"ClipI", t:"It's not what you say", s:"TEDx · Yasir Khan", tag:"Style · Stage glow" },
   { f:"ClipD", t:"Stop overcooking your story", s:"TED · Jenny Hoyos", tag:"Style · Podcast classic" },
 ];
-const grid = document.getElementById("grid");
-const inHero = new Set([...document.querySelectorAll(".reel-card")].map(b => b.dataset.f));
-for (const c of clips) {
-  if (inHero.has(c.f)) continue;
-  const el = document.createElement("article");
-  el.className = "card";
-  el.innerHTML = `<video src="clips/${c.f}.mp4" poster="clips/${c.f}.jpg" preload="none" playsinline controls></video>
-    <div class="meta"><h2>${c.t}</h2><p>${c.s}</p><span class="tag">${c.tag}</span></div>`;
-  el.dataset.i = grid.children.length;
+const feed = document.getElementById("feed"), hint = document.getElementById("hint");
+const wa = "https://wa.me/2349066339975?text=" + encodeURIComponent("Hi Xi-kki, I want clips like these");
+let muted = true;
+clips.forEach((c, i) => {
+  const el = document.createElement("section");
+  el.className = "slide";
+  el.innerHTML = `<video src="clips/${c.f}.mp4" poster="clips/${c.f}.jpg" preload="${i < 2 ? "metadata" : "none"}" playsinline muted loop></video>
+    <button class="snd" type="button" aria-label="Turn sound on">🔇</button>
+    <div class="info"><span class="tag">${c.tag}</span><h2>${c.t}</h2><p>${c.s}</p></div>
+    <a class="side" href="${wa}" target="_blank" rel="noopener" aria-label="Get clips like this on WhatsApp"><b>+</b><span>Get yours</span></a>
+    <div class="bar"><i></i></div>`;
+  feed.appendChild(el);
+  const v = el.querySelector("video"), bar = el.querySelector(".bar i");
+  v.addEventListener("click", () => v.paused ? v.play() : v.pause());
+  v.addEventListener("timeupdate", () => bar.style.width = (v.currentTime / v.duration * 100 || 0) + "%");
+  el.querySelector(".snd").addEventListener("click", e => {
+    muted = !muted;
+    document.querySelectorAll(".slide video").forEach(x => x.muted = muted);
+    document.querySelectorAll(".snd").forEach(b => { b.textContent = muted ? "🔇" : "🔊"; b.setAttribute("aria-label", muted ? "Turn sound on" : "Turn sound off"); });
+  });
   const probe = new Image(); probe.onerror = () => el.remove(); probe.src = `clips/${c.f}.jpg`;
-  grid.appendChild(el); reveal.observe(el);
-}
-// only one clip plays at a time
-document.addEventListener("play", e => {
-  document.querySelectorAll("video").forEach(v => { if (v !== e.target) v.pause(); });
-}, true);
+});
+// play the clip in view, pause the rest, warm up the next one
+const io = new IntersectionObserver(es => es.forEach(e => {
+  const v = e.target.querySelector("video");
+  if (e.isIntersecting) {
+    v.muted = muted; v.play().catch(() => {});
+    const nx = e.target.nextElementSibling?.querySelector("video"); if (nx && nx.preload === "none") nx.preload = "metadata";
+  } else v.pause();
+}), { root: feed, threshold: 0.65 });
+feed.querySelectorAll(".slide").forEach(s => io.observe(s));
+feed.addEventListener("scroll", () => { if (feed.scrollTop > 40) hint.classList.add("gone"); }, { passive: true });
+new IntersectionObserver(([e], o) => { if (e.isIntersecting) { setTimeout(() => hint.classList.add("gone"), 4500); o.disconnect(); } }, { threshold: .5 }).observe(feed);
 </script>
 </body>
 </html>
