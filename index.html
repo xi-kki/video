@@ -85,7 +85,7 @@
       <g id="prints"></g></svg>
     </div>
   </header>
-  <section class="reel" hidden><video src="clips/reel.mp4" poster="clips/reel.jpg" preload="none" playsinline controls></video>
+  <section class="reel"><video src="clips/reel.mp4" poster="clips/reel.jpg" preload="none" playsinline controls></video>
     <div><h2>Showreel</h2><p>Every style in 30 seconds.</p></div></section>
   <main class="grid" id="grid"></main>
   <section class="cta">
@@ -142,12 +142,12 @@ const reveal = new IntersectionObserver(es => es.forEach(e => {
     { opacity: 1, transform: "none", clipPath: "inset(0 0 0 0 round 16px)" }], { duration: 700, delay: (e.target.dataset.i % 3) * 110, easing: EASE, fill: "backwards" });
 }), { threshold: .15 });
 const clips = [
-  // { f:"ClipH", t:"Millionaire to broke in 30 seconds", s:"TEDxIlupeju · Olubori Paul", tag:"Style · Finance terminal" },
+  { f:"ClipH", t:"Millionaire to broke in 30 seconds", s:"TEDxIlupeju · Olubori Paul", tag:"Style · Finance terminal" },
   { f:"ClipF", t:"Popped over his vocabulary", s:"The Hunt Games Show · via Nons_Miraj", tag:"Style · Reality TV pop" },
   { f:"ClipA", t:"\"I am the alpha & omega\"", s:"Honest Bunch Podcast · Glitch Africa Studios", tag:"Style · Podcast classic" },
   { f:"ClipE", t:"You're chasing the wrong thing", s:"Maggie McCormack · YouTube", tag:"Style · Editorial" },
   { f:"ClipG", t:"Smart, wise… and still broke?", s:"Golearn · Rosemond Phil Othihiwa", tag:"Style · Swiss bold" },
-  // { f:"ClipI", t:"It's not what you say", s:"TEDx · Yasir Khan", tag:"Style · Stage glow" },
+  { f:"ClipI", t:"It's not what you say", s:"TEDx · Yasir Khan", tag:"Style · Stage glow" },
   { f:"ClipC", t:"How to hook anyone in 60 seconds", s:"TED · Jenny Hoyos", tag:"Style · Podcast classic" },
   { f:"ClipB", t:"\"Marriage is a business contract\"", s:"Honest Bunch Podcast · Glitch Africa Studios", tag:"Style · Podcast classic" },
   { f:"ClipD", t:"Stop overcooking your story", s:"TED · Jenny Hoyos", tag:"Style · Podcast classic" },
