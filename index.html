@@ -20,11 +20,19 @@
   nav a:hover, nav a[aria-current] { color:var(--fg); }
   .logo { font-family:Anton,sans-serif; font-size:22px; letter-spacing:.5px; text-decoration:none; color:var(--fg)!important; }
   header { display:grid; grid-template-columns:1.2fr .8fr; gap:48px; align-items:center; padding:48px 0 56px; border-bottom:1px solid var(--line); }
-  header .reel-hero video { display:block; width:min(300px,100%); margin-left:auto; aspect-ratio:9/16; border-radius:18px; border:1px solid var(--line); background:#000; }
-  header .reel-hero p { text-align:right; color:var(--mute); font-size:13px; margin-top:10px; }
+  .reel-stack { position:relative; height:520px; }
+  .reel-card { position:absolute; top:20px; width:230px; aspect-ratio:9/16; padding:0; border:1px solid var(--line); border-radius:18px; overflow:hidden; background:#000; cursor:pointer; box-shadow:0 24px 50px rgba(0,0,0,.55); transition:transform .45s cubic-bezier(.215,.61,.355,1), border-color .3s; }
+  .reel-card img, .reel-card video { display:block; width:100%; height:100%; object-fit:cover; }
+  .reel-card.r0 { left:0; transform:rotate(-7deg) translateY(24px); z-index:1; }
+  .reel-card.r1 { left:50%; margin-left:-115px; transform:none; z-index:3; }
+  .reel-card.r2 { right:18px; transform:rotate(7deg) translateY(24px); z-index:2; }
+  .reel-card:hover, .reel-card:focus-visible { transform:translateY(-10px) rotate(0); z-index:4; border-color:var(--accent); outline:none; }
+  .reel-card .play { position:absolute; inset:auto auto 14px 14px; width:42px; height:42px; border-radius:50%; background:var(--accent); color:#000; display:grid; place-items:center; font-size:14px; }
+  .reel-card.playing .play { display:none; }
+  @media (max-width:820px){ .reel-stack { height:auto; display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; padding:4px 0 8px; } .reel-card { position:relative; top:auto; left:auto!important; right:auto; margin:0!important; flex:0 0 62%; transform:none!important; scroll-snap-align:center; } }
   .hero-actions { display:flex; gap:12px; margin-top:28px; flex-wrap:wrap; }
   .btn-ghost { border:1px solid var(--line); color:var(--fg); text-decoration:none; font-weight:600; padding:15px 24px; border-radius:99px; }
-  @media (max-width:820px){ header { grid-template-columns:1fr; gap:32px; } header .reel-hero video { margin:0 auto; } header .reel-hero p { text-align:center; } }
+  @media (max-width:820px){ header { grid-template-columns:1fr; gap:32px; } }
   h1 { font-family:Anton,sans-serif; font-weight:400; font-size:clamp(44px,7vw,92px); line-height:.95; text-transform:uppercase; }
   h1 span { color:var(--accent); }
   .lede { max-width:560px; color:var(--mute); margin-top:20px; font-size:18px; }
@@ -78,9 +86,10 @@
       <a class="btn-ghost" href="https://wa.me/2349066339975?text=Hi%20Xi-kki%2C%20I%20want%20clips%20from%20my%20podcast">Get clips made</a>
     </div>
     </div>
-    <div class="reel-hero">
-      <video src="clips/reel.mp4" poster="clips/reel.jpg" preload="none" playsinline controls></video>
-      <p>Showreel: every style in 30 seconds</p>
+    <div class="reel-stack" aria-label="Sample reels">
+      <button class="reel-card r0" type="button" data-f="ClipH" aria-label="Play Finance terminal sample"><img src="clips/ClipH.jpg" alt="Finance terminal style reel" width="270" height="480"><span class="play" aria-hidden="true">▶</span></button>
+      <button class="reel-card r1" type="button" data-f="ClipF" aria-label="Play Reality TV pop sample"><img src="clips/ClipF.jpg" alt="Reality TV pop style reel" width="270" height="480"><span class="play" aria-hidden="true">▶</span></button>
+      <button class="reel-card r2" type="button" data-f="ClipE" aria-label="Play Editorial sample"><img src="clips/ClipE.jpg" alt="Editorial style reel" width="270" height="480"><span class="play" aria-hidden="true">▶</span></button>
     </div>
   </header>
   <main class="grid" id="grid"></main>
@@ -91,6 +100,15 @@
   <footer>Sample edits made for portfolio purposes. All source footage belongs to its original creators, credited on each clip. Music: Kevin MacLeod (incompetech.com), licensed under <a href="https://creativecommons.org/licenses/by/4.0/" style="color:inherit">CC BY 4.0</a>: "Dreamer", "Fluffing a Duck", "Inspired", "Investigations", "Heartwarming".</footer>
 </div>
 <script>
+// hero reel cards: click to play in place (one at a time)
+document.querySelectorAll(".reel-card").forEach(card => card.addEventListener("click", () => {
+  if (card.classList.contains("playing")) return;
+  document.querySelectorAll(".reel-card.playing video").forEach(v => v.pause());
+  const v = document.createElement("video");
+  v.src = `clips/${card.dataset.f}.mp4`; v.poster = `clips/${card.dataset.f}.jpg`;
+  v.controls = true; v.playsInline = true; v.autoplay = true;
+  card.querySelector("img").replaceWith(v); card.classList.add("playing"); v.play().catch(() => {});
+}));
 // WAAPI motion: hero words mask up, sections + cards reveal on scroll
 const calm = matchMedia("(prefers-reduced-motion: reduce)").matches, EASE = "cubic-bezier(.215,.61,.355,1)";
 if (!calm) {
@@ -106,7 +124,7 @@ if (!calm) {
     });
     t.replaceWith(frag);
   }));
-  [".lede", ".stats", ".hero-actions", ".reel-hero"].forEach((sel, k) => document.querySelector(sel)?.animate(
+  [".lede", ".stats", ".hero-actions", ".reel-stack"].forEach((sel, k) => document.querySelector(sel)?.animate(
     [{ opacity: 0, transform: "translateY(24px)" }, { opacity: 1, transform: "none" }], { duration: 600, delay: 450 + k * 120, easing: EASE, fill: "backwards" }));
 }
 const reveal = new IntersectionObserver(es => es.forEach(e => {
