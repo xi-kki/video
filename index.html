@@ -19,21 +19,16 @@
   nav a { text-decoration:none; color:var(--mute); }
   nav a:hover, nav a[aria-current] { color:var(--fg); }
   .logo { font-family:Anton,sans-serif; font-size:22px; letter-spacing:.5px; text-decoration:none; color:var(--fg)!important; }
-  header { padding:56px 0 40px; border-bottom:1px solid var(--line); }
-  .walk { position:relative; margin-top:36px; }
-  .walk svg { display:block; width:100%; height:auto; overflow:visible; }
-  .walk .end { position:absolute; top:0; font-size:11px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase; }
-  .walk .end b { display:block; font-family:Anton,sans-serif; font-weight:400; font-size:clamp(18px,2.6vw,28px); letter-spacing:0; margin-top:4px; color:var(--fg); }
-  .walk .from { left:0; color:var(--mute); } .walk .to { right:0; top:auto; bottom:0; text-align:right; color:var(--accent); }
-  .print { opacity:0; transform-box:fill-box; transform-origin:center; }
-  .print.on { opacity:1; animation:step .5s cubic-bezier(.215,.61,.355,1) forwards; }
-  .walk.fade .print { transition:opacity .6s ease-in; opacity:0 !important; animation:none; }
-  @keyframes step { from { opacity:0; transform:scale(.6) } to { opacity:1; transform:scale(1) } }
-  @media (prefers-reduced-motion:reduce){ .print { opacity:1 } .print.on { animation:none } }
-  h1 { font-family:Anton,sans-serif; font-weight:400; font-size:clamp(48px,9vw,112px); line-height:.95; text-transform:uppercase; }
+  header { display:grid; grid-template-columns:1.2fr .8fr; gap:48px; align-items:center; padding:48px 0 56px; border-bottom:1px solid var(--line); }
+  header .reel-hero video { display:block; width:min(300px,100%); margin-left:auto; aspect-ratio:9/16; border-radius:18px; border:1px solid var(--line); background:#000; }
+  header .reel-hero p { text-align:right; color:var(--mute); font-size:13px; margin-top:10px; }
+  .hero-actions { display:flex; gap:12px; margin-top:28px; flex-wrap:wrap; }
+  .btn-ghost { border:1px solid var(--line); color:var(--fg); text-decoration:none; font-weight:600; padding:15px 24px; border-radius:99px; }
+  @media (max-width:820px){ header { grid-template-columns:1fr; gap:32px; } header .reel-hero video { margin:0 auto; } header .reel-hero p { text-align:center; } }
+  h1 { font-family:Anton,sans-serif; font-weight:400; font-size:clamp(44px,7vw,92px); line-height:.95; text-transform:uppercase; }
   h1 span { color:var(--accent); }
   .lede { max-width:560px; color:var(--mute); margin-top:20px; font-size:18px; }
-  .stats { display:flex; gap:32px; margin-top:28px; flex-wrap:wrap; font-size:14px; color:var(--mute); }
+  .stats { display:flex; gap:28px; margin-top:24px; flex-wrap:wrap; font-size:14px; color:var(--mute); }
   .stats b { display:block; color:var(--fg); font-size:22px; }
   .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:22px; padding:44px 0 72px; }
   .card { background:var(--card); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
@@ -62,12 +57,15 @@
   <nav>
     <a class="logo" href="/">XI-KKI</a>
     <div class="links">
-      <a href="/builds/">Websites</a>
+      <a href="/agents/">Agents</a>
+      <a href="/builds/">Builds</a>
       <a href="/video/" aria-current="page">Video</a>
+      <a href="/writes/">Writes</a>
       <a href="https://wa.me/2349066339975">Contact</a>
     </div>
   </nav>
   <header>
+    <div class="hero-copy">
     <h1>Long talks.<br><span>Short clips.</span></h1>
     <p class="lede">I turn podcasts, interviews and talks into vertical clips for TikTok, Reels and Shorts: I pick the best moment, then give each clip its own look: kinetic captions, motion graphics, music, framed for the phone.</p>
     <div class="stats">
@@ -75,18 +73,16 @@
       <div><b>6 looks</b>no two the same</div>
       <div><b>Word-synced</b>captions, graphics &amp; music</div>
     </div>
-    <div class="walk" id="walk" aria-hidden="true">
-      <span class="end from">Where you are<b>A 2-hour talk</b></span>
-      <span class="end to">Where you want to be<b>Clips people share</b></span>
-      <svg viewBox="0 0 1000 220"><defs>
-        <g id="foot"><ellipse cx="0" cy="4" rx="7" ry="12"/><circle cx="-5" cy="-12" r="2.6"/><circle cx="-1" cy="-14.5" r="2.4"/><circle cx="3" cy="-14" r="2.2"/><circle cx="6.5" cy="-11.5" r="2"/><circle cx="8.5" cy="-7.5" r="1.7"/></g>
-      </defs>
-      <path id="trail" d="M30 190 C 230 190, 260 90, 480 120 S 760 200, 970 70" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="2 10"/>
-      <g id="prints"></g></svg>
+    <div class="hero-actions">
+      <a class="btn" href="#grid">See the clips</a>
+      <a class="btn-ghost" href="https://wa.me/2349066339975?text=Hi%20Xi-kki%2C%20I%20want%20clips%20from%20my%20podcast">Get clips made</a>
+    </div>
+    </div>
+    <div class="reel-hero">
+      <video src="clips/reel.mp4" poster="clips/reel.jpg" preload="none" playsinline controls></video>
+      <p>Showreel: every style in 30 seconds</p>
     </div>
   </header>
-  <section class="reel"><video src="clips/reel.mp4" poster="clips/reel.jpg" preload="none" playsinline controls></video>
-    <div><h2>Showreel</h2><p>Every style in 30 seconds.</p></div></section>
   <main class="grid" id="grid"></main>
   <section class="cta">
     <h3>Got a podcast?<br>Let's clip it.</h3>
@@ -95,29 +91,6 @@
   <footer>Sample edits made for portfolio purposes. All source footage belongs to its original creators, credited on each clip. Music: Kevin MacLeod (incompetech.com), licensed under <a href="https://creativecommons.org/licenses/by/4.0/" style="color:inherit">CC BY 4.0</a>: "Dreamer", "Fluffing a Duck", "Inspired", "Investigations", "Heartwarming".</footer>
 </div>
 <script>
-// footprints walk the trail from "where you are" to "where you want to be", then loop
-(() => {
-  const trail = document.getElementById("trail"), g = document.getElementById("prints"), walk = document.getElementById("walk");
-  const L = trail.getTotalLength(), N = 16, NS = "http://www.w3.org/2000/svg", prints = [];
-  for (let i = 0; i < N; i++) {
-    const d = 20 + (i / (N - 1)) * (L - 40), p = trail.getPointAtLength(d), q = trail.getPointAtLength(Math.min(L, d + 1));
-    const a = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI, side = i % 2 ? 1 : -1;
-    const wrap = document.createElementNS(NS, "g"), u = document.createElementNS(NS, "use");
-    wrap.setAttribute("transform", `translate(${p.x},${p.y}) rotate(${a + 90}) translate(${side * 9},0) scale(${side},1)`);
-    u.setAttribute("href", "#foot");
-    u.setAttribute("class", "print");
-    u.setAttribute("fill", i === N - 1 ? "var(--accent)" : `color-mix(in srgb, var(--accent) ${25 + (i / N) * 75}%, var(--mute))`);
-    wrap.appendChild(u); g.appendChild(wrap); prints.push(u);
-  }
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const run = () => {
-    walk.classList.remove("fade"); prints.forEach(p => p.classList.remove("on"));
-    prints.forEach((p, i) => setTimeout(() => p.classList.add("on"), 250 + i * 280));
-    setTimeout(() => walk.classList.add("fade"), 250 + N * 280 + 2200);
-    setTimeout(run, 250 + N * 280 + 3200);
-  };
-  run();
-})();
 // WAAPI motion: hero words mask up, sections + cards reveal on scroll
 const calm = matchMedia("(prefers-reduced-motion: reduce)").matches, EASE = "cubic-bezier(.215,.61,.355,1)";
 if (!calm) {
@@ -133,7 +106,7 @@ if (!calm) {
     });
     t.replaceWith(frag);
   }));
-  [".lede", ".stats", ".walk", ".reel"].forEach((sel, k) => document.querySelector(sel)?.animate(
+  [".lede", ".stats", ".hero-actions", ".reel-hero"].forEach((sel, k) => document.querySelector(sel)?.animate(
     [{ opacity: 0, transform: "translateY(24px)" }, { opacity: 1, transform: "none" }], { duration: 600, delay: 450 + k * 120, easing: EASE, fill: "backwards" }));
 }
 const reveal = new IntersectionObserver(es => es.forEach(e => {
