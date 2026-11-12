@@ -81,24 +81,11 @@
   <header>
     <div class="hero-copy">
     <h1>Long talks.<br><span>Short clips.</span></h1>
-    <p class="lede">I turn podcasts, interviews and talks into vertical clips for TikTok, Reels and Shorts: I pick the best moment, then give each clip its own look: kinetic captions, motion graphics, music, framed for the phone.</p>
-    <div class="stats">
-      <div><b>9:16</b>1080×1920</div>
-      <div><b>6 looks</b>no two the same</div>
-      <div><b>Word-synced</b>captions, graphics &amp; music</div>
-    </div>
+    <p class="lede">One podcast or talk becomes a week of clips that grow your audience and bring in clients.</p>
     <div class="hero-actions">
       <a class="btn" href="#grid">See the clips</a>
       <a class="btn-ghost" href="https://wa.me/2349066339975?text=Hi%20Xi-kki%2C%20I%20want%20clips%20from%20my%20podcast">Get clips made</a>
     </div>
-    </div>
-    <div class="reel-stack" aria-label="Sample reels">
-      <button class="reel-card main" type="button" data-f="reel" aria-label="Play Showreel"><div class="rthumb"><img src="clips/reel.jpg" alt="Showreel reel" width="270" height="480" loading="lazy"><span class="play" aria-hidden="true">▶</span></div><div class="rinfo"><b>Showreel</b><span>All 6 looks · 30s</span></div></button>
-      <button class="reel-card" type="button" data-f="ClipH" aria-label="Play Finance terminal"><div class="rthumb"><img src="clips/ClipH.jpg" alt="Finance terminal reel" width="270" height="480" loading="lazy"><span class="play" aria-hidden="true">▶</span></div><div class="rinfo"><b>Finance terminal</b><span>TEDx talk</span></div></button>
-      <button class="reel-card" type="button" data-f="ClipF" aria-label="Play Reality TV pop"><div class="rthumb"><img src="clips/ClipF.jpg" alt="Reality TV pop reel" width="270" height="480" loading="lazy"><span class="play" aria-hidden="true">▶</span></div><div class="rinfo"><b>Reality TV pop</b><span>Show clip</span></div></button>
-      <button class="reel-card" type="button" data-f="ClipE" aria-label="Play Editorial"><div class="rthumb"><img src="clips/ClipE.jpg" alt="Editorial reel" width="270" height="480" loading="lazy"><span class="play" aria-hidden="true">▶</span></div><div class="rinfo"><b>Editorial</b><span>Interview</span></div></button>
-      <button class="reel-card" type="button" data-f="ClipG" aria-label="Play Swiss bold"><div class="rthumb"><img src="clips/ClipG.jpg" alt="Swiss bold reel" width="270" height="480" loading="lazy"><span class="play" aria-hidden="true">▶</span></div><div class="rinfo"><b>Swiss bold</b><span>Podcast</span></div></button>
-      <button class="reel-card" type="button" data-f="ClipI" aria-label="Play Stage glow"><div class="rthumb"><img src="clips/ClipI.jpg" alt="Stage glow reel" width="270" height="480" loading="lazy"><span class="play" aria-hidden="true">▶</span></div><div class="rinfo"><b>Stage glow</b><span>TEDx talk</span></div></button>
     </div>
   </header>
   <main class="grid" id="grid"></main>
@@ -133,7 +120,7 @@ if (!calm) {
     });
     t.replaceWith(frag);
   }));
-  [".lede", ".stats", ".hero-actions", ".reel-stack"].forEach((sel, k) => document.querySelector(sel)?.animate(
+  [".lede", ".hero-actions"].forEach((sel, k) => document.querySelector(sel)?.animate(
     [{ opacity: 0, transform: "translateY(24px)" }, { opacity: 1, transform: "none" }], { duration: 600, delay: 450 + k * 120, easing: EASE, fill: "backwards" }));
 }
 const reveal = new IntersectionObserver(es => es.forEach(e => {
@@ -142,23 +129,35 @@ const reveal = new IntersectionObserver(es => es.forEach(e => {
     { opacity: 1, transform: "none", clipPath: "inset(0 0 0 0 round 16px)" }], { duration: 700, delay: (e.target.dataset.i % 3) * 110, easing: EASE, fill: "backwards" });
 }), { threshold: .15 });
 const clips = [
+  { f:"ClipR", t:"\"It was a Bolt\"", s:"ShxtsnGigs Podcast", tag:"Style · Pop-up hook" },
   { f:"ClipH", t:"Millionaire to broke in 30 seconds", s:"TEDxIlupeju · Olubori Paul", tag:"Style · Finance terminal" },
+  { f:"ClipO", t:"What AI can't copy", s:"Jay Yang · YouTube", tag:"Style · Bold list" },
+  { f:"ClipL", t:"Is veganism a scam?", s:"Healthier · Tim Armoo", tag:"Style · Podcast frame" },
+  { f:"ClipJ", t:"Nobody changes because you tell them to", s:"TEDxPatras · Peter Sage", tag:"Style · Cinematic type" },
   { f:"ClipA", t:"\"I am the alpha & omega\"", s:"Honest Bunch Podcast · Glitch Africa Studios", tag:"Style · Podcast classic" },
+  { f:"ClipP", t:"Popped over the size of his head", s:"The Hunt Games Show · via Nons_Miraj", tag:"Style · Big caps" },
+  { f:"ClipQ", t:"What is life for?", s:"Big Think · Aristotle", tag:"Style · Clean" },
+  { f:"ClipM", t:"Who edits my videos?", s:"Unchained · Lara Acosta", tag:"Style · Studio cards" },
   { f:"ClipF", t:"Popped over his vocabulary", s:"The Hunt Games Show · via Nons_Miraj", tag:"Style · Reality TV pop" },
+  { f:"ClipN", t:"Mic a street interview like a pro", s:"RØDE · YouTube", tag:"Style · Neon tips" },
   { f:"ClipC", t:"How to hook anyone in 60 seconds", s:"TED · Jenny Hoyos", tag:"Style · Podcast classic" },
   { f:"ClipE", t:"You're chasing the wrong thing", s:"Maggie McCormack · YouTube", tag:"Style · Editorial" },
-  { f:"ClipB", t:"\"Marriage is a business contract\"", s:"Honest Bunch Podcast · Glitch Africa Studios", tag:"Style · Podcast classic" },
+  { f:"ClipK", t:"Why God feels so real", s:"Darante' LaMar · YouTube", tag:"Style · Talking-head explainer" },
   { f:"ClipG", t:"Smart, wise… and still broke?", s:"Golearn · Rosemond Phil Othihiwa", tag:"Style · Swiss bold" },
-  { f:"ClipD", t:"Stop overcooking your story", s:"TED · Jenny Hoyos", tag:"Style · Podcast classic" },
+  { f:"ClipB", t:"\"Marriage is a business contract\"", s:"Honest Bunch Podcast · Glitch Africa Studios", tag:"Style · Podcast classic" },
   { f:"ClipI", t:"It's not what you say", s:"TEDx · Yasir Khan", tag:"Style · Stage glow" },
+  { f:"ClipD", t:"Stop overcooking your story", s:"TED · Jenny Hoyos", tag:"Style · Podcast classic" },
 ];
 const grid = document.getElementById("grid");
+const inHero = new Set([...document.querySelectorAll(".reel-card")].map(b => b.dataset.f));
 for (const c of clips) {
+  if (inHero.has(c.f)) continue;
   const el = document.createElement("article");
   el.className = "card";
   el.innerHTML = `<video src="clips/${c.f}.mp4" poster="clips/${c.f}.jpg" preload="none" playsinline controls></video>
     <div class="meta"><h2>${c.t}</h2><p>${c.s}</p><span class="tag">${c.tag}</span></div>`;
   el.dataset.i = grid.children.length;
+  const probe = new Image(); probe.onerror = () => el.remove(); probe.src = `clips/${c.f}.jpg`;
   grid.appendChild(el); reveal.observe(el);
 }
 // only one clip plays at a time
